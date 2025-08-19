@@ -1,0 +1,37 @@
+---
+/* 
+interface Props {
+    title?: string;
+} */
+
+const {title, ...rest} = Astro.props
+
+// console.log('rest:', rest)
+
+const frontmatter = rest.frontmatter
+
+console.log('fronmatter', frontmatter)
+
+
+import "@/styles/blog.css";
+
+
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{frontmatter.title}</title>
+
+        
+	</head>
+	<body class="bg-gray-950">
+        <a href="/">Regresar</a>
+		<main class="mb-10 max-w-5xl m-auto px-2 py-2 text-white">
+            <slot/>
+        </main>
+	</body>
+</html>
