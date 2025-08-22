@@ -1,31 +1,99 @@
-@reference 'tailwindcss';
+@reference '@/styles/global.css';
 
-/* Blog.css */
-
+/* ===== Global resets para blog ===== */
 html {
-  @apply bg-gray-950 px-10;
+  scroll-behavior: smooth; /* aplica correctamente al ser global */
+  @apply bg-gray-950;
 }
 
 body {
   @apply mt-10;
 }
 
-h1 {
-  @apply text-3xl text-white my-5;
+/* View Transition nativo */
+@view-transition {
+  navigation: auto;
 }
 
-h2 {
-  @apply text-2xl text-blue-500 py-5;
+.back-button {
+  @apply inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-lg border border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors duration-200;
 }
 
-h3 {
-  @apply text-xl text-white my-5;
+.back-button svg {
+  @apply w-4 h-4;
 }
 
-p {
-  @apply text-white my-5;
+.blog-content {
+  @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+  @apply text-gray-200;
 }
 
-a {
-  @apply text-blue-500 hover:underline;
+/* ===== Encabezados globales ===== */
+.blog-content h1 {
+  @apply text-4xl font-extrabold mb-6 text-white;
+}
+
+.blog-content h2 {
+  @apply text-3xl font-bold mt-10 mb-4 text-gray-100;
+}
+
+.blog-content h3 {
+  @apply text-2xl font-semibold mt-6 mb-3;
+}
+
+/* ===== Texto y elementos básicos ===== */
+.blog-content p {
+  @apply my-4 text-gray-300;
+}
+
+.blog-content a {
+  @apply text-blue-400 underline hover:text-blue-300;
+}
+
+.blog-content img {
+  @apply w-full rounded-xl my-6 shadow-lg;
+}
+
+/* ===== Bloques de código ===== */
+.blog-content pre {
+  @apply bg-gray-800 p-4 rounded-lg overflow-x-auto my-6;
+}
+
+.blog-content pre code {
+  @apply bg-transparent text-emerald-400 font-mono text-sm;
+}
+
+/* Inline code (fuera de pre) */
+.blog-content :not(pre) > code {
+  @apply bg-gray-700 text-cyan-400 px-1 py-0.5 rounded text-sm font-mono;
+}
+
+/* ===== Blockquotes ===== */
+.blog-content blockquote {
+  @apply border-l-4 border-blue-500 pl-4 italic text-gray-400 my-6;
+}
+
+/* ===== Tabla de contenidos (TOC) ===== */
+.toc {
+  @apply bg-gray-800/50 p-4 rounded-xl mb-8 border border-gray-700;
+}
+
+.toc-title {
+  @apply text-lg font-semibold mb-3 text-gray-200;
+}
+
+.toc-list {
+  @apply list-decimal list-inside space-y-2 text-sm;
+}
+
+.toc-item a {
+  @apply text-gray-300 hover:text-blue-400 transition-colors;
+}
+
+.toc-item[style*="--level:2"] {
+  @apply ml-4;
+}
+
+.toc-item[style*="--level:3"] {
+  @apply ml-8;
 }
