@@ -1,0 +1,95 @@
+---
+import type { GetStaticPaths } from "astro";
+import BlogLayout from "@/layouts/BlogLayout.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import ScrollToTop from "@/components/ScrollToTop.astro";
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection("blog");
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+
+const { title, description, image, date, author } = post.data;
+
+const { Content, headings } = await post.render();
+---
+
+<BlogLayout title={title}>
+  <article class="blog-content">
+    <!-- Table de contenidos -->
+    {
+      headings.length > 0 && (
+        <nav class="toc">
+          <h3 class="toc-title">Tabla de contenidos</h3>
+          <ol class="toc-list">
+            {headings.map((heading, index) => (
+              <li class="toc-item" style={`--level:${heading.depth}`}>
+                <a href={`#${heading.slug}`}>
+                  {" "}
+                  {index + 1}. {heading.text}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+
+    <!-- Contenido -->
+    <Content />
+  </article>
+
+  <ScrollToTop threshold={300} />
+</BlogLayout>
+
+<style>
+  /* @reference 'tailwindcss';
+
+
+:global(.blog-content h1) {
+  @apply text-4xl font-extrabold mb-6 text-white;
+}
+
+:global(.blog-content h2) {
+  @apply text-3xl font-bold mt-10 mb-4 text-gray-100;
+}
+
+:global(.blog-content h3) {
+  @apply text-2xl font-semibold mt-6 mb-3;
+}
+
+:global(.blog-content p) {
+  @apply my-4 text-gray-300;
+}
+
+:global(.blog-content a) {
+  @apply text-pink-500 underline hover:text-pink-400;
+}
+
+:global(.blog-content img) {
+  @apply w-full rounded-xl my-6 shadow-lg;
+}
+
+:global(.blog-content pre) {
+  @apply bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto my-6;
+}
+
+:global(.blog-content code) {
+  @apply bg-gray-700 text-pink-400 px-1 py-0.5 rounded text-sm;
+}
+
+:global(.blog-content blockquote) {
+  @apply border-l-4 border-blue-500 pl-4 italic text-gray-400 my-6;
+} */
+</style>

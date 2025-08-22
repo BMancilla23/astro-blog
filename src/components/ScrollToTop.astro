@@ -1,0 +1,52 @@
+---
+import { Icon } from "astro-icon/components";
+import "@/styles/global.css";
+
+interface Props {
+  threshold?: number;
+}
+
+const { threshold = 300 } = Astro.props;
+---
+
+<!-- aria-label - accesibilidad: describe la acción de botón --><!-- aria-hidden -  indica a screen readers si está activo visible o no-->
+<button
+  id="scrollToTop"
+  type="button"
+  data-threshold={threshold}
+  class="hidden fixed bottom-6 right-6 p-3 rounded-full bg-gray-800/80 backdrop-blur text-white shadow-md hover:bg-gray-700 transition"
+  onclick="
+window.scrollTo({ top: 0, behavior: 'smooth' })"
+  aria-label="Volver arriba"
+  aria-hidden="true"
+>
+  <Icon name="heroicons:arrow-up" class="w-6 h-6" />
+</button>
+
+<script is:inline>
+  // ⚡ `is:inline` hace que este script se inyecte directamente en el HTML
+  // en lugar de ir a un bundle separado. Esto es necesario porque depende
+  // del botón que se renderiza en este mismo componente.
+
+  // Puede ser ull -> comprobamos antes de usarlo
+  const btn = document.getElementById("scrollToTop");
+
+  // Tomamos el threshold desde el atributo
+  const threshold = Number(btn?.dataset.threshold) ?? 300;
+
+  // Chequea si el scroll pasó el umbral definido en props
+  const toggle = () => {
+    const show = window.scrollY > Number(threshold);
+
+    // Mostrar/ocultar el botón
+    btn?.classList.toggle("hidden", !show);
+
+    // Actualizar aria-hidden para mantener la accesibilidad coherente
+    btn?.setAttribute("aria-hidden", String(!show));
+  };
+
+  // Escuchar el scroll (pasivo = mejor rendimiento) y chequear estado inicial
+  window.addEventListener("scroll", toggle, { passive: true });
+
+  toggle();
+</script>
