@@ -1,0 +1,73 @@
+---
+
+import type { PostMeta } from '@/types/post';
+import { formatDate } from '@/utils/date';
+
+interface Props extends PostMeta {
+   /*  image?: string;
+    date: string;
+    category?: string;
+    categoryUrl?: string;
+    title: string;
+    description: string;
+    // author?: {
+    //     name: string;
+    //     role: string;
+    //     avatar: string;
+    // };
+    author?: string;
+    href?: string;
+    tags?: string[] */
+    href?: string;
+}
+
+const {image,
+  date,
+  category,
+/*   categoryUrl = "#", */
+  title,
+  description,
+  author,
+  href} = Astro.props;
+
+---
+<!-- Post 1 -->
+      <article class="flex max-w-xl flex-col items-start justify-between">
+        <img src={image ?? 'https://thumbs.dreamstime.com/b/no-thumbnail-image-placeholder-forums-blogs-websites-148010362.jpg'} alt={title} class="w-full rounded-xl bg-gray-800 object-cover aspect-[16/9]" />
+        <div class="flex items-center gap-x-4 text-xs mt-4">
+          <time datetime={new Date(date).toISOString()} class="text-gray-400">{formatDate(date)}</time>
+          <a href="#" class="relative z-10 rounded-full bg-gray-800/60 px-3 py-1.5 font-medium text-gray-300 hover:bg-gray-800">{category}</a>
+        </div>
+        <div class="group relative grow">
+          <h3 class="mt-3 text-lg/6 font-semibold text-white group-hover:text-gray-300">
+            <a href={href}>
+              <span class="absolute inset-0"></span>
+              {title}
+            </a>
+          </h3>
+          <p class="mt-5 line-clamp-3 text-sm/6 text-gray-400">{description}</p>
+        </div>
+        <div class="relative mt-8 flex items-center gap-x-4 justify-self-end">
+           {
+    typeof author === "string" ? (
+      <p class="font-semibold text-white">{author}</p>
+    ) : (
+      <>
+        <img 
+          src={author.image ?? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"} 
+          alt={author.name} 
+          class="size-10 rounded-full bg-gray-800" 
+        />
+        <div class="text-sm/6">
+          <p class="font-semibold text-white">{author.name}</p>
+          {author.bio && <p class="text-gray-400">{author.bio}</p>}
+        </div>
+      </>
+    )
+  }>
+        </div>
+      </article>
+
+<style>
+
+</style>
