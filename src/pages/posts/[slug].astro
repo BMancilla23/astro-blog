@@ -4,6 +4,8 @@ import BlogLayout from "@/layouts/BlogLayout.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import ScrollToTop from "@/components/ScrollToTop.astro";
+import { Image } from "astro:assets";
+import PostImage from "@/components/PostImage.astro";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("blog");
@@ -27,6 +29,40 @@ const { Content, headings } = await post.render();
 
 <BlogLayout title={title}>
   <article class="blog-content">
+    <!-- Image -->
+
+    {
+      (
+        /*   image ? (
+        <Image
+          src={image}
+          alt={title}
+          class="w-full rounded-xl bg-gray-800 object-cover aspect-[16/9] mb-6"
+          width={800}
+          height={450}
+          quality="mid"
+          loading="lazy"
+        />
+      ) : (
+        <img
+          src="https://thumbs.dreamstime.com/b/no-thumbnail-image-placeholder-forums-blogs-websites-148010362.jpg"
+          alt={title}
+          class="w-full rounded-xl bg-gray-800 object-cover aspect-[16/9] mb-6"
+          width="800"
+          height="450"
+          loading="lazy"
+        />
+      ) */
+
+        <PostImage
+          src={image}
+          alt={title}
+          class="w-full rounded-sm object-cover aspect-[16/9] mb-6 h-48"
+          quality="high"
+        />
+      )
+    }
+
     <!-- Table de contenidos -->
     {
       headings.length > 0 && (
