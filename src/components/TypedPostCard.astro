@@ -1,17 +1,22 @@
 ---
+import AvatarImage from "@/components/AvatarImage.astro";
 import PostImage from "@/components/PostImage.astro";
 import { formatDate } from "@/utils/date";
-import { Image } from "astro:assets";
 
 import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
 
 interface Props {
   post: CollectionEntry<"blog">;
+  showAuthor?: boolean; // New prop to control author display
 }
 
-const { post } = Astro.props;
+const { post, showAuthor = true } = Astro.props;
 
-const { image, date, title, description, author } = post.data;
+const { image, date, title, description } = post.data;
+
+const authorEntry = await getEntry("author", post.data.author.id);
+const author = authorEntry?.data ?? null;
 
 /* const src =
   typeof image === "string"
@@ -48,7 +53,7 @@ const { image, date, title, description, author } = post.data;
   <PostImage
     src={image}
     alt={title}
-    class="w-full rounded-xl object-cover aspect-[16/9]"
+    className="w-full rounded-xl object-cover aspect-[16/9]"
     quality="low"
   />
 
@@ -69,25 +74,13 @@ const { image, date, title, description, author } = post.data;
 
     <p class="mt-5 line-clamp-3 text-sm/6 text-gray-400">{description}</p>
   </div>
-  <div class="relative mt-8 flex items-center gap-x-4 justify-self-end">
+  <div class=" mt-4 flex items-center gap-x-4 ">
     {
-      (
-        /*  typeof author === "string" ? (
-      <p class="font-semibold text-white">{author}</p>
-    ) : (
-      <>
-        <img 
-          src={author?.image ?? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"} 
-          alt={author?.name} 
-          class="size-10 rounded-full bg-gray-800" 
-        />
-        <div class="text-sm/6">
-          <p class="font-semibold text-white">{author?.name}</p>
-          {author?.bio && <p class="text-gray-400">{author?.bio}</p>}
-        </div>
-      </>
-    ) */
-        <p class="font-semibold text-white">{author}</p>
+      showAuthor && author && (
+        <AvatarImage src={author.avatar} size="sm" quality="mid" />
+    <div class="text-sm/6">
+      <p class="font-semibold text-white">{author?.name}</p>
+    </div>
       )
     }
   </div>
