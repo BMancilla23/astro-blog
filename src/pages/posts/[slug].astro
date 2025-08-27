@@ -1,11 +1,12 @@
 ---
-import type { GetStaticPaths } from "astro";
-import BlogLayout from "@/layouts/BlogLayout.astro";
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import ScrollToTop from "@/components/ScrollToTop.astro";
-import { Image } from "astro:assets";
+import AvatarImage from "@/components/AvatarImage.astro";
 import PostImage from "@/components/PostImage.astro";
+import ScrollToTop from "@/components/ScrollToTop.astro";
+import BlogLayout from "@/layouts/BlogLayout.astro";
+import { formatDate } from "@/utils/date";
+import type { GetStaticPaths } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("blog");
@@ -22,13 +23,71 @@ interface Props {
 
 const { post } = Astro.props;
 
-const { title, description, image, date, author } = post.data;
+const { title, description, image, date } = post.data;
+
+// console.log("post:", post);
 
 const { Content, headings } = await post.render();
+const authorEntry = await getEntry("author", post.data.author.id);
+const author = authorEntry?.data ?? null;
 ---
 
 <BlogLayout title={title}>
   <article class="blog-content">
+    <!-- Autor -->
+    {
+      author && (
+        <div class="mt-12 flex items-center gap-x-4">
+          {/*   <div class="w-10 h-10 shrink-0 relative aspect-square">
+            {author.avatar ? (
+              <Image
+                src={author.avatar}
+                alt={author.name}
+                class="w-full h-full rounded-full object-cover avatar-img"
+                width={40}
+                height={40}
+                loading="lazy"
+              />
+            ) : (
+              <img
+                src="/assets/images/avatar-default.jpg"
+                alt={author.name}
+                class="w-10 h-10 rounded-full bg-gray-800 object-cover"
+                width="40"
+                height="40"
+                loading="lazy"
+              />
+            )}
+          </div> */}
+
+          <AvatarImage
+            src={author.avatar}
+            alt={author.name}
+            size="md"
+           /*  className="avatar-img" */
+            quality="mid"
+            loading="lazy"
+          />
+
+          <div class="flex-1">
+            <a href={`/blog/${authorEntry?.id}`} class="text-sm font-medium text-white leading-tight">
+              {author.name}
+            </a>
+            <div class="text-xs text-gray-400">
+              Publicado el{/*  {new Date(date).toLocaleDateString("es-ES", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })} */}
+              {
+                formatDate(date)
+              }
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     <!-- Image -->
 
     {
@@ -57,7 +116,7 @@ const { Content, headings } = await post.render();
         <PostImage
           src={image}
           alt={title}
-          class="w-full rounded-sm object-cover aspect-[16/9] mb-6 h-48"
+          className="w-full rounded-sm object-cover aspect-[16/9] mb-6 h-48"
           quality="high"
         />
       )
@@ -72,7 +131,6 @@ const { Content, headings } = await post.render();
             {headings.map((heading, index) => (
               <li class="toc-item" style={`--level:${heading.depth}`}>
                 <a href={`#${heading.slug}`}>
-                  {" "}
                   {index + 1}. {heading.text}
                 </a>
               </li>
@@ -90,6 +148,13 @@ const { Content, headings } = await post.render();
 </BlogLayout>
 
 <style>
+ /*  @reference '@/styles/global.css';
+
+  .avatar-img {
+    margin-block: 0; 
+    display: block; 
+  }
+ */
   /* @reference 'tailwindcss';
 
 
