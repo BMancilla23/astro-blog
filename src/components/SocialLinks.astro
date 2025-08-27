@@ -1,0 +1,49 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  social: {
+    twitter?: string;
+    github?: string;
+    linkedin?: string;
+    /* [key: string]: string | undefined; */
+  };
+  useFullUrl?: boolean; // New prop to determine if full URLs are provided
+}
+
+const { social, useFullUrl = false } = Astro.props;
+
+// Mapeo de plataformas a sus URLs base y iconos
+const platformMap = {
+  twitter: { base: "https://twitter.com/", icon: "lucide:twitter" },
+  github: { base: "https://github.com/", icon: "lucide:github" },
+  linkedin: { base: "https://www.linkedin.com/in/", icon: "lucide:linkedin" },
+  website: { base: "", icon: "lucide:globe" },
+} as const;
+---
+
+<div class="flex space-x-4">
+  {
+    Object.entries(platformMap).map(([key, { base, icon }]) => {
+      const handle = social?.[key as keyof typeof social];
+      if (!handle) return null;
+
+      // Si ya mandaste URL completa, úsala, si no, concatena
+      const href = useFullUrl ? handle : `${base}${handle}`;
+
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-gray-400 hover:text-gray-200"
+          aria-label={key}
+        >
+          <Icon name={icon} class="h-5 w-5" />
+        </a>
+      );
+    })
+  }
+</div>
+
+<style></style>
