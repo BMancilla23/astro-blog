@@ -1,0 +1,31 @@
+---
+import AuthorCard from "@/components/AuthorCard.astro";
+import MainLayout from "@/layouts/MainLayout.astro";
+import { getCollection } from "astro:content";
+
+const authors = await getCollection("author");
+---
+
+<MainLayout title="Listado de autores">
+  <section class="">
+    <div class="mx-2 lg:mx-0">
+      <h2
+        class="text-4xl font-semibold tracking-tight text-pretty text-white sm:text-5xl"
+      >
+        Autores
+      </h2>
+      <p class="mt-2 text-lg/8 text-gray-300">
+        Aquí puedes encontrar una lista de todos los autores que contribuyen a
+        este blog.
+      </p>
+      <!-- Cards -->
+      <div
+        class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-700 pt-10 sm:mt-16 sm:pt-16 lg:grid-cols-3"
+      >
+        {authors.map((author) => <AuthorCard author={author} />)}
+      </div>
+    </div>
+  </section>
+
+  <style></style>
+</MainLayout>
