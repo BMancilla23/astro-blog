@@ -1,0 +1,9 @@
+name: Jane Doe
+avatar: ./avatars/jane-doe.webp
+role: Content Writer
+bio: "Jane is a content writer who loves crafting engaging stories about technology and innovation."
+social:
+  twitter: jane_doe
+  github: janedoe
+  linkedin: jane-doe
+website: https://janedoe.com

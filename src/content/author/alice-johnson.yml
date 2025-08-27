@@ -1,0 +1,9 @@
+name: Alice Johnson
+avatar: ./avatars/alice-johnson.webp
+role: Senior Developer
+bio: "Alice is a senior developer with a passion for open-source projects and community building."
+social:
+  twitter: alice_johnson
+  github: alicejohnson
+  linkedin: alice-johnson
+website: https://alicejohnson.dev

@@ -1,0 +1,9 @@
+name: Bob Williams
+avatar: ./avatars/bob-williams.webp
+role: Software Engineer
+bio: "Bob is a software engineer who specializes in backend development and cloud computing."
+social:
+  twitter: bob_williams
+  github: bobwilliams
+  linkedin: bob-williams
+website: https://bobwilliams.io

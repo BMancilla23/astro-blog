@@ -1,0 +1,9 @@
+name: John Smith
+avatar: ./avatars/john-smith.webp
+role: Lead Designer
+bio: "John is a lead designer with over a decade of experience in creating user-centric designs."
+social:
+  twitter: john_smith
+  github: johnsmith
+  linkedin: john-smith
+website: https://johnsmith.design
