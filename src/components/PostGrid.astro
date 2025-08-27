@@ -1,0 +1,23 @@
+---
+/* import TypedPostCard from "@/components/TypedPostCard.astro";
+import type { CollectionEntry } from "astro:content"; */
+
+interface Props {
+  /*  posts: CollectionEntry<"blog">[]; */
+  title?: string;
+}
+const { /* posts,  */ title = "Entradas de blog" } = Astro.props;
+---
+
+<div class="py-10 mx-auto">
+  <h1 class="text-3xl font-semibold lg:text-4xl text-white">{title}</h1>
+</div>
+
+<section class="bg-gray-900 p-10" aria-label="Entradas de blog">
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <!--  {posts.map((post) => <TypedPostCard post={post} />)} -->
+    <slot />
+  </div>
+</section>
+
+<style></style>
