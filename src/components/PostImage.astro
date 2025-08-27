@@ -4,7 +4,8 @@ import { Image } from "astro:assets";
 interface Props {
   src?: ImageMetadata | null;
   alt: string;
-  class?: string;
+  fallback?: string;
+  className?: string;
   width?: number;
   height?: number;
   quality?: "low" | "mid" | "high" | number;
@@ -14,11 +15,12 @@ interface Props {
 const {
   src,
   alt,
-  class: className,
+  className,
   width = 800,
   height = 450,
   quality,
   loading = "lazy",
+  fallback = "/assets/images/placeholder.jpg",
 } = Astro.props;
 ---
 
@@ -35,7 +37,7 @@ const {
     />
   ) : (
     <img
-      src="/assets/images/placeholder.jpg"
+      src={fallback}
       alt={alt}
       class={className}
       width={width}
