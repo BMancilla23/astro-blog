@@ -1,0 +1,48 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  prev?: string;
+  next?: string;
+}
+const { prev, next } = Astro.props;
+---
+
+<nav
+  aria-label="Paginación"
+  class="flex justify-between items-center mt-10 gap-4"
+>
+  {
+    prev ? (
+      <a
+        href={prev}
+        class="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white transition-colors shadow-md"
+      >
+        <Icon name="lucide:arrow-left" class="w-5 h-5" />
+        <span class="hidden sm:inline">Anteriores</span>
+      </a>
+    ) : (
+      <span class="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800/50 text-gray-500 cursor-not-allowed">
+        <Icon name="lucide:arrow-left" class="w-5 h-5" />
+        <span class="hidden sm:inline">Anteriores</span>
+      </span>
+    )
+  }
+
+  {
+    next ? (
+      <a
+        href={next}
+        class="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white transition-colors shadow-md"
+      >
+        <span class="hidden sm:inline">Siguientes</span>
+        <Icon name="lucide:arrow-right" class="w-5 h-5" />
+      </a>
+    ) : (
+      <span class="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800/50 text-gray-500 cursor-not-allowed">
+        <span class="hidden sm:inline">Siguientes</span>
+        <Icon name="lucide:arrow-right" class="w-5 h-5" />
+      </span>
+    )
+  }
+</nav>
