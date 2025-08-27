@@ -1,0 +1,81 @@
+---
+import { Image } from "astro:assets";
+
+type AvatarSize = "sm" | "md" | "lg";
+
+interface Props {
+  src?: ImageMetadata | null;
+  alt?: string;
+  size?: AvatarSize;
+  className?: string;
+  fallback?: string;
+  loading?: "lazy" | "eager";
+  quality?: "low" | "mid" | "high" | number;
+}
+
+const {
+  src,
+  alt,
+  size = "md",
+  className,
+  fallback = "/assets/images/avatar-default.jpg",
+  loading = "lazy",
+  quality,
+} = Astro.props;
+
+const sizeMap = {
+  sm: { w: 32, h: 32, class: "w-8 h-8" },
+  md: { w: 40, h: 40, class: "w-10 h-10" },
+  lg: { w: 56, h: 56, class: "w-14 h-14" },
+} as const;
+
+const { w, h, class: sizeClass } = sizeMap[size];
+---
+
+<div
+  class:list={[
+    /*   size === "sm" && "w-8 h-8",
+    size === "md" && "w-10 h-10",
+    size === "lg" && "w-14 h-14", */
+    sizeClass,
+    "shrink-0 rounded-full bg-gray-800 overflow-hidden relative",
+    className,
+  ]}
+>
+  {
+    src ? (
+      <Image
+        src={src}
+        alt={alt ?? "Avatar"}
+        class="w-full h-full object-cover avatar-img"
+       /*  width={size === "sm" ? 32 : size === "md" ? 40 : 56}
+        height={size === "sm" ? 32 : size === "md" ? 40 : 56} */
+        width={w}
+        height={h}
+        loading={loading}
+        quality={quality}
+      />
+    ) : (
+      <img
+        src={fallback}
+        alt={alt ?? "Avatar"}
+        class="w-full h-full object-cover"
+       /*  width={size === "sm" ? 32 : size === "md" ? 40 : 56}
+        height={size === "sm" ? 32 : size === "md" ? 40 : 56} */
+        width={w}
+        height={h}
+        loading={loading}
+      />
+    )
+  }
+</div>
+
+<style>
+  @reference '@/styles/global.css';
+
+
+  .avatar-img {
+    margin-block: 0; /* mata el espacio fantasma */
+    display: block; /* opcional, pero más predecible */
+  }
+</style>
