@@ -21,4 +21,5 @@ export default defineConfig({
   },
 
   integrations: [mdx(), icon()],
+  site: "http://example.com",
 });
