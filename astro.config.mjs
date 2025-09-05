@@ -21,5 +21,5 @@ export default defineConfig({
   },
 
   integrations: [mdx(), icon()],
-  site: "http://example.com",
+  site: "https://splendorous-narwhal-931ec7.netlify.app",
 });
